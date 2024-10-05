@@ -1,5 +1,7 @@
 import { render } from 'preact'
-import { App } from './app.tsx'
 import './index.css'
+import App from "./app.tsx";
+
+//entry point into the netire app
 
 render(<App />, document.getElementById('app')!)
