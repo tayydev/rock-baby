@@ -1,13 +1,28 @@
+import datetime
+import uuid
+
 from pydantic import BaseModel
 
-from data import LobbyStatus, CardInfoDTO, PlayerOptions, LobbyState
+from data import LobbyState, PlayerOptions, list_cards
 
 
 class Games(BaseModel):
-    state: dict[str, LobbyState]
+    state: dict[uuid.UUID, LobbyState]
 
     def start_game(self) -> LobbyState:
-        pass
+        new_uuid = uuid.uuid4()
+        new_time = datetime.datetime.now()
+        new_game = LobbyState(
+            id=new_uuid,
+            last_update=new_time,
+            guest=PlayerOptions(
+                available=list_cards()
+            ),
+            host=PlayerOptions(
+                available=list_cards()
+            )
+        )
+        return new_game
 
     def join_game(self, game_id: str) -> LobbyState:
         pass
@@ -23,3 +38,10 @@ class Games(BaseModel):
         :return:
         """
         pass
+
+
+games = Games(state={})
+
+
+def get_games():
+    return games
