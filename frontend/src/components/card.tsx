@@ -1,7 +1,8 @@
-import {CardInfoDTO} from "../client";
+import {BaseCard} from "../client";
+import sprite1 from '../assets/card_sprite_1.png'
 
 interface CardProps {
-    info: CardInfoDTO
+    info: BaseCard
 }
 
 
@@ -24,7 +25,7 @@ export default function Card(props: CardProps) {
                     height: "100%"
                 }}>
                     <img
-                        src={"./assets/card_sprite_1.png"}
+                        src={sprite1}
                         alt={"image error :("}
                         style={{
                             width: "100%",

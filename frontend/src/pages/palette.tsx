@@ -1,6 +1,6 @@
 import {useEffect, useState} from "preact/hooks";
 import Card from "../components/card.tsx";
-import {CardInfoDTO, Configuration, DefaultApi} from "../client";
+import {BaseCard, Configuration, DefaultApi} from "../client";
 
 const apiConfig = new Configuration({
     basePath: 'http://127.0.0.1:8000', // Your FastAPI base URL
@@ -9,11 +9,11 @@ const apiConfig = new Configuration({
 const apiClient = new DefaultApi(apiConfig);
 
 export function Palette() {
-    const [cardList, setCardList] = useState<CardInfoDTO[]>([])
+    const [cardList, setCardList] = useState<BaseCard[]>([])
 
     useEffect(() => {
-        apiClient.randomCardListRandomCardListGet()
-            .then(result => setCardList(result.data))
+        apiClient.createGameCreateGameGet()
+            .then(result => setCardList(result.data.host.available))
     }, [])
 
     return <div style={{
