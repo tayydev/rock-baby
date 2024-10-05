@@ -13,9 +13,6 @@ export function Home() {
           <button onClick={() => navigateToGame('host')}>
               Host Game
           </button>
-          <button onClick={() => navigateToGame('guest')}>
-              Join Game
-          </button>
       </div>
   )
 }
