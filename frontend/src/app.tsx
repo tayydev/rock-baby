@@ -8,14 +8,14 @@ const App = () => {
     return (
         <div>
             <nav>
-                <a href="/">Home</a> | <a href="/palette">About</a> | <a href="/error">Test Error</a>
+                <a href="/">Home</a> | <a href="/palette">About</a>
             </nav>
 
             <Router>
                 <Home path="/" />
                 <Palette path="/palette" />
                 <Game path="/game" />
-                <Error404 path="/error" />
+                <Error404 default />
             </Router>
         </div>
     );
