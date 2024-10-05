@@ -4,6 +4,8 @@ import {Configuration, DefaultApi} from "../client";
 import {route} from "preact-router";
 import {QRCodeSVG} from "qrcode.react";
 
+import './game.css'
+
 
 const apiConfig = new Configuration({
     basePath: 'http://127.0.0.1:8000', // Your FastAPI base URL
@@ -42,22 +44,26 @@ export function Game() {
             }
             );
         }
-        else if (role === 'guest' && lobby === null) {
+        else if (role === 'guest') {
             //Join game logic
             }
         }
         , []);
 
     return (
-        <div>
+        <div className="game-container">
             <h1>Game Page</h1>
             <p>Welcome to the game!</p>
             <p>Role: {role}</p>
             <p>Game ID: {lobby?.id}</p>
-            <button onClick={copyGuestLink}>Copy Guest Link</button>
-            <div>
-                <QRCodeSVG value={guestLink} />
-            </div>
+            {role === 'host' && (
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+                    className="host-controls">
+                    <QRCodeSVG value={guestLink} />
+                    <button onClick={copyGuestLink}>Copy guest link</button>
+                </div>
+            )}
+
         </div>
     );
 }

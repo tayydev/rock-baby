@@ -7,9 +7,6 @@ import {Error404} from "./pages/error.tsx";
 const App = () => {
     return (
         <div>
-            <nav>
-                <a href="/">Home</a> | <a href="/palette">About</a>
-            </nav>
 
             <Router>
                 <Home path="/" />
