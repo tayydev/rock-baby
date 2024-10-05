@@ -12,7 +12,7 @@ const apiClient = new DefaultApi(apiConfig);
 
 
 export function Home() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState("")
 
   return (
     <>
@@ -28,9 +28,9 @@ export function Home() {
       <div class="card">
         <button onClick={
             async () => {
-                const response = await apiClient.randomNumberRandomGet()
-                console.log("Message received from server!", response.data.message)
-                setCount(response.data.number)
+                const response = await apiClient.createGameCreateGameGet()
+                console.log("Message received from server!", response.data.id)
+                setCount(response.data.id)
             }
         }>
           response number is {count}

@@ -3,7 +3,8 @@ import uuid
 
 from pydantic import BaseModel
 
-from data import LobbyState, PlayerOptions, list_cards
+from cards import list_cards
+from data import LobbyState, PlayerOptions
 
 
 class Games(BaseModel):

@@ -1,4 +1,5 @@
-from data import LobbyStatus
+from cards import DoNothing, WashingMachine
+from data import LobbyStatus, GameState, PlayerState, Throw, Player
 from games import Games
 
 
@@ -11,3 +12,23 @@ def test_games():
     assert result.guest.available != []
     assert result.host.available != []
 
+
+def test_washing_machine():
+    game_state = GameState(
+        host_state=PlayerState(
+            throw=Throw.SCISSORS,
+            status_effects=[],
+            played_card=DoNothing()
+        ),
+        guest_state=PlayerState(
+            throw=Throw.ROCK,
+            status_effects=[],
+            played_card=None
+        )
+    )
+    washer = WashingMachine()
+    new_state = washer.change_state(game_state, played_by=Player.GUEST)
+    assert new_state.guest_state.played_card.name == "Washing Machine"
+    assert new_state.host_state.played_card is None
+    assert new_state.host_state.throw == Throw.PAPER
+    assert new_state.guest_state.throw == Throw.SCISSORS
