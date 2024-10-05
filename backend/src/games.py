@@ -24,11 +24,17 @@ class Games(BaseModel):
         )
         return new_game
 
-    def join_game(self, game_id: str) -> LobbyState:
+    #check for uuid in dictionary, raise if not there, update the state
+    #return lobby state
+    def join_game(self, game_id: uuid.UUID) -> LobbyState:
+        #if self.state[game_id] is uuid.UUID:
         pass
 
+    #return state if exists, throw error if not
     def get_state(self, game_id) -> LobbyState:
-        pass
+        if self.state[game_id] is None:
+            raise Exception("Game does not exist! :(")
+        return self.state[game_id]
 
     def set_options(self, cards: PlayerOptions, role: str):
         """
