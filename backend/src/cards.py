@@ -5,8 +5,15 @@ from data import BaseCard, GameState, Player
 
 def shared_change_state(old: GameState, played_by: Player) -> [GameState, bool]:  # updated state, should continue execute
     if played_by is Player.GUEST and "jail" in old.guest_state.status_effects:
-        pass  # return a version with no more jail in status effects, but also played by not doing anything
-    # TODO: also jail if player isn't guest
+        new_guest_state = old.guest_state.model_copy(update={
+            "status_effects": old.guest_state.status_effects.remove("jail")
+        })
+        return new_guest_state, False
+    if played_by is Player.HOST and "jail" in old.host_state.status_effects:
+        new_host_state = old.host_state.model_copy(update={
+            "status_effects": old.host_state.status_effects.remove("jail")
+        })
+        return new_host_state, False
 
     return old, True
 
@@ -68,6 +75,31 @@ class AusWashingMachine(BaseCard):
             "guest_state": new_guest_state
         })
 
+class CardJail(BaseCard):
+    name: str = "Card Jail"
+    path: str = "cardjail.png"
+    description: str = "Opponent's next card has no effect."
+
+    def change_state(self, old: GameState, played_by: Player) -> GameState:
+
+        shared, should_continue = shared_change_state(old, played_by)
+        if not should_continue:
+            return shared
+
+        if played_by is "host":
+            new_guest_state = old.guest_state.model_copy(update={
+               "status_effects": old.guest_state.status_effects.append("jail")
+            })
+
+        else:
+            new_host_state = old.host_state.model_copy(update={
+                "status_effects": old.host_state.status_effects.append("jail")
+            })
+
+        return old.model_copy(update={
+            "host_state": new_host_state,
+            "guest_state": new_guest_state
+        })
 
 def list_cards() -> list[BaseCard]:
     return [
