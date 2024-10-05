@@ -1,5 +1,5 @@
 import {BaseCard} from "../client";
-import sprite1 from '../assets/card_sprite_1.png'
+import sprite1 from '../assets/cards/washing.png'
 
 interface CardProps {
     info: BaseCard
@@ -25,7 +25,7 @@ export default function Card(props: CardProps) {
                     height: "100%"
                 }}>
                     <img
-                        src={sprite1}
+                        src={`/src/assets/cards/${card.path}`}
                         alt={"image error :("}
                         style={{
                             width: "110%",
