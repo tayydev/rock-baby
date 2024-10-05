@@ -50,6 +50,7 @@ class PlayerState(BaseModel):
 
 class BaseCard(BaseModel, ABC):
     name: str
+    path: str
     description: str
 
     @abstractmethod
@@ -57,15 +58,27 @@ class BaseCard(BaseModel, ABC):
         pass  # don't need to define abstract method
 
 
-class DoNothingCard(BaseCard):
+class DoNothing(BaseCard):
     name: str = "Does Nothing"
+    path: str = "nothing"
     description: str = "Does Nothing :3"
 
     def change_state(self, old: GameState) -> GameState:
         return old
 
 
+class WashingMachine(BaseCard):
+    name: str = "Washing Machine"
+    path: str = "washing.png"
+    description: str = "Cycles throws to what they beat"
+
+    def change_state(self, old: GameState) -> GameState:
+        # TODO: Add state changing logic
+        return old
+
+
 def list_cards() -> list[BaseCard]:
     return [
-        DoNothingCard()
+        DoNothing(),
+        WashingMachine()
     ]
