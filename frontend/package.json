@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "client": "openapi-generator-cli generate -i http://127.0.0.1:8000/openapi.json -g typescript-axios -o ./src/client"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "preact": "^10.24.1"
   },
   "devDependencies": {

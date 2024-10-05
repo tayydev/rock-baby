@@ -2,6 +2,14 @@ import { useState } from 'preact/hooks'
 import preactLogo from './assets/preact.svg'
 import viteLogo from '/vite.svg'
 import './app.css'
+import {Configuration, DefaultApi} from "./client";
+
+const apiConfig = new Configuration({
+    basePath: 'http://127.0.0.1:8000', // Your FastAPI base URL
+});
+
+const apiClient = new DefaultApi(apiConfig);
+
 
 export function App() {
   const [count, setCount] = useState(0)
@@ -18,8 +26,14 @@ export function App() {
       </div>
       <h1>Vite + Preact</h1>
       <div class="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={
+            async () => {
+                const response = await apiClient.randomNumberRandomGet()
+                console.log("Message received from server!", response.data.message)
+                setCount(response.data.number)
+            }
+        }>
+          response number is {count}
         </button>
         <p>
           Edit <code>src/app.tsx</code> and save to test HMR
