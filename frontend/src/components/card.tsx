@@ -19,7 +19,7 @@ export default function Card(props: CardProps) {
             borderRadius: "10px"
         }}>
             {card.name}
-            <div style={{ height: "8rem", background: "red", padding: "1rem"}}>
+            <div style={{ height: "8rem", background: "black", padding: "0.5rem"}}>
                 <div style={{
                     background: "white",
                     height: "100%"
@@ -28,9 +28,11 @@ export default function Card(props: CardProps) {
                         src={sprite1}
                         alt={"image error :("}
                         style={{
-                            width: "100%",
-                            height: "100%",
+                            width: "110%",
+                            height: "110%",
                             objectFit: "cover",
+                            marginLeft: "-7%",
+                            marginTop: "-1%",
                             borderRadius: "5px"
                         }}
                     />
