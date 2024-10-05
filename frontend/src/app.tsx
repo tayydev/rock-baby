@@ -1,7 +1,7 @@
-import { h } from "preact";
 import Router from "preact-router";
 import {Palette} from "./pages/palette.tsx";
 import {Home} from "./pages/home.tsx";
+import {Game} from "./pages/game.tsx";
 
 const App = () => {
     return (
@@ -13,6 +13,7 @@ const App = () => {
             <Router>
                 <Home path="/" />
                 <Palette path="/palette" />
+                <Game path="/game" />
             </Router>
         </div>
     );
