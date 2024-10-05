@@ -63,7 +63,6 @@ export function Game() {
                     <button onClick={copyGuestLink}>Copy guest link</button>
                 </div>
             )}
-
         </div>
     );
 }
