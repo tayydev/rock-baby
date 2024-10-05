@@ -1,16 +1,18 @@
+import {CardInfoDTO} from "../client";
+
 interface CardProps {
-    id: number
+    info: CardInfoDTO
 }
 
 
 export default function Card(props: CardProps) {
-    const id = props.id
+    const card = props.info
 
     return <div style={{background: "black", width: "10rem", height: "20rem"}}>
-        Hello, my card id is {id}
+        {card.name}
         <div style={{height: "8rem", background: "red"}}>
             picture here
         </div>
-        Description here
+        {card.description}
     </div>
 }
