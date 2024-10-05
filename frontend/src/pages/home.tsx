@@ -3,7 +3,7 @@ import '../app.css'
 
 
 export function Home() {
-  
+
     const navigateToGame = (role: string) => {
         route(`/game?role=${role}`);
     }

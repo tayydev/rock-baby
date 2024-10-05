@@ -13,9 +13,26 @@ class LobbyStatus(str, Enum):
     SHOWDOWN = "showdown"  # showing the winner
 
 
-class RandomPayloadDTO(BaseModel):
-    message: str
-    number: int
+class Player(str, Enum):
+    HOST = "host"
+    GUEST = "guest"
+
+
+class Throw(str, Enum):
+    ROCK = "Rock"
+    PAPER = "Paper"
+    SCISSORS = "Scissors"
+    NONE = "Nothing"
+
+    def cycle(self):
+        if self is self.ROCK:
+            return self.PAPER
+        elif self is self.PAPER:
+            return self.SCISSORS
+        elif self is self.SCISSORS:
+            return self.ROCK
+        else:
+            return self.NONE
 
 
 class LobbyState(BaseModel):
@@ -30,7 +47,7 @@ class LobbyState(BaseModel):
 class PlayerOptions(BaseModel):
     available: list["BaseCard"]
     selected: list["BaseCard"] = []
-    throw: str = ""
+    throw: Optional[Throw] = None
 
 
 class GameState(BaseModel):
@@ -39,7 +56,7 @@ class GameState(BaseModel):
 
 
 class PlayerState(BaseModel):
-    throw: str
+    throw: Throw
     status_effects: list[str]  # assumes status effect have unique string names
     played_card: Optional["BaseCard"]
 
@@ -54,31 +71,5 @@ class BaseCard(BaseModel, ABC):
     description: str
 
     @abstractmethod
-    def change_state(self, old: GameState) -> GameState:
+    def change_state(self, old: GameState, played_by: Player) -> GameState:
         pass  # don't need to define abstract method
-
-
-class DoNothing(BaseCard):
-    name: str = "Does Nothing"
-    path: str = "nothing"
-    description: str = "Does Nothing :3"
-
-    def change_state(self, old: GameState) -> GameState:
-        return old
-
-
-class WashingMachine(BaseCard):
-    name: str = "Washing Machine"
-    path: str = "washing.png"
-    description: str = "Cycles throws to what they beat"
-
-    def change_state(self, old: GameState) -> GameState:
-        # TODO: Add state changing logic
-        return old
-
-
-def list_cards() -> list[BaseCard]:
-    return [
-        DoNothing(),
-        WashingMachine()
-    ]

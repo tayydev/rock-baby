@@ -1,10 +1,9 @@
-import random
 import uuid
 
 from fastapi import FastAPI, Depends
 from starlette.middleware.cors import CORSMiddleware
 
-from data import RandomPayloadDTO, LobbyState
+from data import LobbyState
 from games import Games, get_games
 
 app = FastAPI()
@@ -17,17 +16,6 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
     allow_headers=["*"],  # Allow all headers
 )
-
-
-@app.get("/random")
-def random_number() -> RandomPayloadDTO:
-    rand = random.randint(1, 10)
-    message = "hello world"
-    dto = RandomPayloadDTO(
-        message=message,
-        number=rand
-    )
-    return dto
 
 
 @app.get("/create-game")
