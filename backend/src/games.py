@@ -22,16 +22,26 @@ class Games(BaseModel):
                 available=list_cards()
             )
         )
+        self.state[new_uuid] = new_game
         return new_game
 
-    #check for uuid in dictionary, raise if not there, update the state
-    #return lobby state
+
     def join_game(self, game_id: uuid.UUID) -> LobbyState:
+        """
+        Check for uuid in dictionary, raise if not there, update the state
+        :param game_id:
+        :return: the new lobby state
+        """
+        # TODO: Finish this with Arya
         #if self.state[game_id] is uuid.UUID:
         pass
 
-    #return state if exists, throw error if not
-    def get_state(self, game_id) -> LobbyState:
+    def get_state(self, game_id: uuid.UUID) -> LobbyState:
+        """
+        return state if exists, throw error if not
+        :param game_id:
+        :return:
+        """
         if self.state[game_id] is None:
             raise Exception("Game does not exist! :(")
         return self.state[game_id]
