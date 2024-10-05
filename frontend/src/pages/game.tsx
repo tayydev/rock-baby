@@ -33,9 +33,11 @@ export function Game() {
                 route(`/game?role=${role}&gameID=${result.data.id}`, true)
             }
             );
-
-
-        }}
+        }
+        else if (role === 'guest' && lobby === null) {
+            //Join game logic
+            }
+        }
         , []);
 
     return (
