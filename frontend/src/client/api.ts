@@ -51,6 +51,27 @@ export interface BaseCard {
 /**
  * 
  * @export
+ * @interface GameEndState
+ */
+export interface GameEndState {
+    /**
+     * 
+     * @type {Player}
+     * @memberof GameEndState
+     */
+    'winner': Player;
+    /**
+     * 
+     * @type {string}
+     * @memberof GameEndState
+     */
+    'tie_breaker'?: string | null;
+}
+
+
+/**
+ * 
+ * @export
  * @interface GameState
  */
 export interface GameState {
@@ -122,6 +143,12 @@ export interface LobbyState {
      * @memberof LobbyState
      */
     'game_history'?: Array<GameState>;
+    /**
+     * 
+     * @type {GameEndState}
+     * @memberof LobbyState
+     */
+    'end'?: GameEndState | null;
 }
 
 
@@ -138,6 +165,20 @@ export const LobbyStatus = {
 } as const;
 
 export type LobbyStatus = typeof LobbyStatus[keyof typeof LobbyStatus];
+
+
+/**
+ * 
+ * @export
+ * @enum {string}
+ */
+
+export const Player = {
+    Host: 'host',
+    Guest: 'guest'
+} as const;
+
+export type Player = typeof Player[keyof typeof Player];
 
 
 /**
@@ -184,13 +225,13 @@ export interface PlayerState {
      * @type {Array<string>}
      * @memberof PlayerState
      */
-    'status_effects': Array<string>;
+    'status_effects'?: Array<string>;
     /**
      * 
      * @type {BaseCard}
      * @memberof PlayerState
      */
-    'played_card': BaseCard | null;
+    'played_card'?: BaseCard | null;
 }
 
 
@@ -353,6 +394,63 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary Submit
+         * @param {string} gameId 
+         * @param {Player} role 
+         * @param {Throw} throwChoice 
+         * @param {Array<BaseCard>} baseCard 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitPostGameGet: async (gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'gameId' is not null or undefined
+            assertParamExists('submitPostGameGet', 'gameId', gameId)
+            // verify required parameter 'role' is not null or undefined
+            assertParamExists('submitPostGameGet', 'role', role)
+            // verify required parameter 'throwChoice' is not null or undefined
+            assertParamExists('submitPostGameGet', 'throwChoice', throwChoice)
+            // verify required parameter 'baseCard' is not null or undefined
+            assertParamExists('submitPostGameGet', 'baseCard', baseCard)
+            const localVarPath = `/post-game`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (gameId !== undefined) {
+                localVarQueryParameter['game_id'] = gameId;
+            }
+
+            if (role !== undefined) {
+                localVarQueryParameter['role'] = role;
+            }
+
+            if (throwChoice !== undefined) {
+                localVarQueryParameter['throw_choice'] = throwChoice;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(baseCard, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -401,6 +499,22 @@ export const DefaultApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['DefaultApi.joinGameJoinGameGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @summary Submit
+         * @param {string} gameId 
+         * @param {Player} role 
+         * @param {Throw} throwChoice 
+         * @param {Array<BaseCard>} baseCard 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LobbyState>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.submitPostGameGet(gameId, role, throwChoice, baseCard, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.submitPostGameGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -439,6 +553,19 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         joinGameJoinGameGet(gameId: string, options?: RawAxiosRequestConfig): AxiosPromise<LobbyState> {
             return localVarFp.joinGameJoinGameGet(gameId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Submit
+         * @param {string} gameId 
+         * @param {Player} role 
+         * @param {Throw} throwChoice 
+         * @param {Array<BaseCard>} baseCard 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig): AxiosPromise<LobbyState> {
+            return localVarFp.submitPostGameGet(gameId, role, throwChoice, baseCard, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -483,6 +610,21 @@ export class DefaultApi extends BaseAPI {
      */
     public joinGameJoinGameGet(gameId: string, options?: RawAxiosRequestConfig) {
         return DefaultApiFp(this.configuration).joinGameJoinGameGet(gameId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Submit
+     * @param {string} gameId 
+     * @param {Player} role 
+     * @param {Throw} throwChoice 
+     * @param {Array<BaseCard>} baseCard 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).submitPostGameGet(gameId, role, throwChoice, baseCard, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
