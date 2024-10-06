@@ -104,17 +104,39 @@ export default function Playing(props: createdProps){
         </div>
         Cards Selected: {selectedCards.length + ' / 3'}
         <div className="button-container">
-            {availableCards.map(card => (
-                <button
-                    key={card.name}
-                    onClick={() => handleCardClick(card)}
-                    style={{
-                        backgroundColor: selectedCards.some(c => c.name === card.name) ? 'gray' : 'black'
-                    }}
-                >
-                    <Card info={card}></Card>
-                </button>
-            ))}
+            {availableCards.map(card => {
+                const selectedIndex = selectedCards.findIndex(c => c.name === card.name);
+                return (
+                    <button
+                        key={card.name}
+                        onClick={() => handleCardClick(card)}
+                        style={{
+                            backgroundColor: selectedCards.some(c => c.name === card.name) ? 'gray' : 'black',
+                            position: 'relative'
+                        }}
+                    >
+                        {selectedIndex !== -1 && (
+                            <span style={{
+                                position: 'absolute',
+                                color: 'black',
+                                transform: 'translate(20%, 100%)',
+                                backgroundColor: 'white',
+                                borderRadius: '50%',
+                                padding: '5px',
+                                width: '1rem',
+                                height: '1rem',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                border: '1px solid black'
+                            }}>
+                                {selectedIndex + 1}
+                            </span>
+                        )}
+                        <Card info={card}></Card>
+                    </button>
+                )
+            })}
         </div>
         <div className="submit-button">
             <button
