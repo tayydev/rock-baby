@@ -44,9 +44,9 @@ export function Game() {
             });
         }
         else if (role === 'guest') {
-            if(lobby === null) route("/error");
+            if(queryStringId === null) route("/error");
             else {
-                //TODO: join game here
+                apiClient.joinGameJoinGameGet(queryStringId).then();
             }
         }
     }, []);
