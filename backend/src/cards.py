@@ -1,3 +1,5 @@
+import copy
+
 from random import randint
 
 from data import BaseCard, GameState, Player, Throw
@@ -5,9 +7,10 @@ from data import BaseCard, GameState, Player, Throw
 
 def shared_change_state(old: GameState, played_by: Player) -> [GameState, bool]:  # updated state, should continue execute
     if played_by is Player.GUEST and "jail" in old.guest_state.status_effects:
-        old.guest_state.status_effects.remove("jail")
+        status_copy = copy.deepcopy(old.guest_state.status_effects)
+        status_copy.remove("jail")
         new_guest_state = old.guest_state.model_copy(update={
-            "status_effects": old.guest_state.status_effects,
+            "status_effects": status_copy,
             "played_card": None
         })
         new_host_state = old.guest_state.model_copy(update={
@@ -19,9 +22,10 @@ def shared_change_state(old: GameState, played_by: Player) -> [GameState, bool]:
         })
         return new_game_state, False
     if played_by is Player.HOST and "jail" in old.host_state.status_effects:
-        old.host_state.status_effects.remove("jail")
+        status_copy = copy.deepcopy(old.host_state.status_effects)
+        status_copy.remove("jail")
         new_host_state = old.host_state.model_copy(update={
-            "status_effects": old.host_state.status_effects,
+            "status_effects": status_copy,
             "played_card": None
         })
         new_guest_state = old.guest_state.model_copy(update={
@@ -51,19 +55,21 @@ def angel_save(old: GameState, player_saved: Player) -> GameState:
     rand_throw = randint(0,2)
 
     if player_saved is Player.HOST:
-        old.host_state.status_effects.remove("angel")
+        status_copy = copy.deepcopy(old.host_state.status_effects)
+        status_copy.remove("angel")
         throw = rand_throw if (old.guest_state.throw is Throw.NONE) else old.guest_state.throw.cycle().cycle()
         new_host_state = old.host_state.model_copy(update={
             "throw": throw,
-            "status_effect": old.host_state.status_effects
+            "status_effect": status_copy
         })
         new_guest_state = old.guest_state.model_copy()
     else:
-        old.guest_state.status_effects.remove("angel")
+        status_copy = copy.deepcopy(old.guest_state.status_effects)
+        status_copy.remove("angel")
         throw = rand_throw if (old.host_state.throw is Throw.NONE) else old.host_state.throw.cycle().cycle()
         new_guest_state = old.guest_state.model_copy(update={
             "throw": throw,
-            "status_effect": old.guest_state.status_effects
+            "status_effect": status_copy
         })
         new_host_state = old.host_state.model_copy()
     return old.model_copy(update={
@@ -144,17 +150,19 @@ class CardJail(BaseCard):
             return shared
 
         if played_by is Player.HOST:
-            old.guest_state.status_effects.append("jail")
+            status_copy = copy.deepcopy(old.guest_state.status_effects)
+            status_copy.append("jail")
             new_guest_state = old.guest_state.model_copy(update={
-                "status_effects": old.guest_state.status_effects
+                "status_effects": status_copy
             })
             new_host_state = old.host_state.model_copy(update={
                 "played_card": self
             })
         else:
-            old.host_state.status_effects.append("jail")
+            status_copy = copy.deepcopy(old.host_state.status_effects)
+            status_copy.append("jail")
             new_host_state = old.host_state.model_copy(update={
-                "status_effects": old.host_state.status_effects
+                "status_effects": status_copy
             })
             new_guest_state = old.guest_state.model_copy(update={
                 "played_card": self
@@ -178,18 +186,20 @@ class OppositeDay(BaseCard):
 
         if is_flipped:
             if "winflip" in old.host_state.status_effects:
-                old.host_state.status_effects.remove("winflip")
+                status_copy = copy.deepcopy(old.host_state.status_effects)
+                status_copy.remove("winflip")
                 new_host_state = old.host_state.model_copy(update={
-                    "status_effects": old.host_state.status_effects,
+                    "status_effects": status_copy,
                     "played_card": self if (played_by == Player.HOST) else None
                 })
                 new_guest_state = old.guest_state.model_copy(update={
                     "played_card": self if (played_by == Player.GUEST) else None
                 })
             else:
-                old.guest_state.status_effects.remove("winflip")
+                status_copy = copy.deepcopy(old.guest_state.status_effects)
+                status_copy.remove("winflip")
                 new_guest_state = old.guest_state.model_copy(update={
-                    "status_effects": old.guest_state.status_effects,
+                    "status_effects": status_copy,
                     "played_card": self if (played_by == Player.GUEST) else None
                 })
                 new_host_state = old.host_state.model_copy(update={
@@ -197,16 +207,18 @@ class OppositeDay(BaseCard):
                 })
         else:
             if played_by is Player.HOST:
-                old.host_state.status_effects.append("winflip")
+                status_copy = copy.deepcopy(old.host_state.status_effects)
+                status_copy.append("winflip")
                 new_host_state = old.host_state.model_copy(update={
-                    "status_effects": old.host_state.status_effects,
+                    "status_effects": status_copy,
                     "played_card": self
                 })
                 new_guest_state = old.guest_state.model_copy()
             else:
-                old.guest_state.status_effects.append("winflip")
+                status_copy = copy.deepcopy(old.guest_state.status_effects)
+                status_copy.append("winflip")
                 new_guest_state = old.guest_state.model_copy(update={
-                    "status_effects": old.guest_state.status_effects,
+                    "status_effects": status_copy,
                     "played_card": self
                 })
                 new_host_state = old.host_state.model_copy()
@@ -228,16 +240,18 @@ class Angel(BaseCard):
             return shared
 
         if played_by is Player.HOST:
-            old.host_state.status_effects.append("angel")
+            status_copy = copy.deepcopy(old.host_state.status_effects)
+            status_copy.append("angel")
             new_host_state = old.host_state.model_copy(update={
-                "status_effects": old.host_state.status_effects,
+                "status_effects": status_copy,
                 "played_card": self
             })
             new_guest_state = old.guest_state.model_copy()
         else:
-            old.guest_state.status_effects.append("angel")
+            status_copy = copy.deepcopy(old.guest_state.status_effects)
+            status_copy.append("angel")
             new_guest_state = old.guest_state.model_copy(update={
-                "status_effects": old.guest_state.status_effects,
+                "status_effects": status_copy,
                 "played_card": self
             })
             new_host_state = old.host_state.model_copy()
