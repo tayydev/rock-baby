@@ -43,6 +43,7 @@ class Games(BaseModel):
         :param game_id:
         :return:
         """
+          #TODO: it doesn't work
         if self.state[game_id] is None:
             raise Exception("Game does not exist! :(")
         return self.state[game_id]
