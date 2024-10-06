@@ -59,6 +59,6 @@ export function Game() {
     return <>
         {(lobby == null || lobby.status == LobbyStatus.Created) && <Created lobby={lobby} role={role!}/>}
         {(lobby != null && lobby.status == LobbyStatus.Playing) && <Playing lobby={lobby} role={role!}/>}
-        {(lobby != null && lobby.status == LobbyStatus.Showdown) && <Showdown lobbyState={lobby}/>}
+        {(lobby != null && lobby.status == LobbyStatus.Showdown) && <Showdown lobby={lobby}/>}
     </>
 }

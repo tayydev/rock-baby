@@ -9,9 +9,13 @@ const App = () => {
         <div>
 
             <Router>
+                {/* @ts-ignore */}
                 <Home path="/" />
+                {/* @ts-ignore */}
                 <Palette path="/palette" />
+                {/* @ts-ignore */}
                 <Game path="/game" />
+                {/* @ts-ignore */}
                 <Error404 default />
             </Router>
         </div>
