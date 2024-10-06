@@ -3,7 +3,7 @@ import Card from "../components/card.tsx";
 import {BaseCard, Configuration, DefaultApi} from "../client";
 
 const apiConfig = new Configuration({
-    basePath: 'https://api.playrock.baby', // Your FastAPI base URL
+    basePath: base_url, // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);

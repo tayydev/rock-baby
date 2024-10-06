@@ -9,7 +9,7 @@ import Created from "./created.tsx";
 
 
 const apiConfig = new Configuration({
-    basePath: 'https://api.playrock.baby', // Your FastAPI base URL
+    basePath: base_url, // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);
