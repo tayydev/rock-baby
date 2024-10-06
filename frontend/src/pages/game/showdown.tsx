@@ -2,6 +2,7 @@ import {LobbyState, Player, Throw} from "../../client";
 import {useEffect, useState} from "preact/hooks";
 import SlidingComponent from "../../components/slidingComponent.tsx";
 import Card from "../../components/card.tsx";
+import ConfettiExplosion from "react-confetti-explosion";
 
 interface ShowdownProps {
     lobby: LobbyState,
@@ -10,6 +11,7 @@ interface ShowdownProps {
 
 export default function Showdown(props: ShowdownProps) {
     const [index, setIndex] = useState(0)
+    const [winner, setWinner] = useState(false)
 
     useEffect(() => {
         // Set up the interval to increment index every 3 seconds
@@ -19,6 +21,7 @@ export default function Showdown(props: ShowdownProps) {
                     return prevIndex + 1;
                 } else {
                     clearInterval(interval);
+                    setWinner(true);
                     return prevIndex;
                 }
             });
@@ -86,6 +89,11 @@ export default function Showdown(props: ShowdownProps) {
                         </div>
                     </SlidingComponent>
                 })}
+                {winner && <div style={{background: "#1a1a1a", width: "50%", padding: "20px", borderRadius: "20px", color: "white", margin: "10vh"}}>
+                    <b>YOU {props.lobby.end?.winner == props.role ? "WON" : "LOST"}</b>
+                    {props.lobby.end?.winner == props.role && <ConfettiExplosion />}
+                    {props.lobby.end?.tie_breaker != null && ` (${props.lobby.end.tie_breaker})`}
+                </div>}
             </div>
 
             {/* Self Bar */}

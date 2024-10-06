@@ -93,7 +93,7 @@ def _determine_game_end_state(state: GameState):
         winner = random.choice(list(Player))
         return GameEndState(
             winner=winner,
-            tie_breaker="Tie broken by player with longest remaining life span"
+            tie_breaker="Ties are broken by player with longest remaining life span"
         )
     if "winflip" in state.guest_state.status_effects or state.host_state.status_effects:
         if state.guest_state.throw == Throw.NONE:
