@@ -10,6 +10,7 @@
     "client": "openapi-generator-cli generate -i http://127.0.0.1:8839/openapi.json -g typescript-axios -o ./src/client"
   },
   "dependencies": {
+    "@types/react": "^18.3.11",
     "axios": "^1.7.7",
     "preact": "^10.24.1",
     "preact-router": "^4.1.2",

@@ -1,0 +1,42 @@
+
+.sliding-component {
+  position: absolute;
+  /*top: 50%;*/
+  left: 0;
+  transform: translateY(-50%);
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translate(-100vw, -50%);
+  }
+  15% {
+    transform: translate(-10vw, -50%);
+  }
+  85% {
+    transform: translate(10vw, -50%);
+  }
+  100% {
+    transform: translate(100vw, -50%);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translate(100vw, -50%);
+  }
+  10% {
+    transform: translate(0, -50%);
+  }
+  90% {
+    transform: translate(-100vw, -50%);
+  }
+  95% {
+    transform: translate(-150vw, -50%);
+  }
+  100% {
+    transform: translate(-150vw, -50%);
+  }
+}
