@@ -213,7 +213,7 @@ class OppositeDay(BaseCard):
                 status_copy.append("winflip")
                 new_host_state = old.host_state.model_copy(update={
                     "status_effects": status_copy,
-                    "played_card": self
+                    "played_card": self if (played_by == Player.HOST) else None
                 })
                 new_guest_state = old.guest_state.model_copy()
             else:
@@ -221,7 +221,7 @@ class OppositeDay(BaseCard):
                 status_copy.append("winflip")
                 new_guest_state = old.guest_state.model_copy(update={
                     "status_effects": status_copy,
-                    "played_card": self
+                    "played_card": self if (played_by == Player.GUEST) else None
                 })
                 new_host_state = old.host_state.model_copy()
 
