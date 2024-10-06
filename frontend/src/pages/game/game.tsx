@@ -48,13 +48,13 @@ export function Game() {
                 route(`/game?role=${role}&gameID=${result.data.id}`, true)
             });
         }
-        else if (role === 'guest') {
+        else if ((role === 'guest') && (lobby?.status == LobbyStatus.Created)) {
             if(queryStringId === null) route("/error");
             else {
                 apiClient.joinGameJoinGameGet(queryStringId).then();
             }
         }
-    }, [queryStringId, role]);
+    }, [queryStringId, role, lobby?.status]);
 
     return <div height={"100%"}>
         {(lobby == null || lobby.status == LobbyStatus.Created) && <Created lobby={lobby} role={role!}/>}
