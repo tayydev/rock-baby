@@ -54,7 +54,7 @@ export function Game() {
                 apiClient.joinGameJoinGameGet(queryStringId).then();
             }
         }
-    }, [queryStringId, role]);
+    }, [queryStringId, role, lobby?.status]);
 
     return <div height={"100%"}>
         {(lobby == null || lobby.status == LobbyStatus.Created) && <Created lobby={lobby} role={role!}/>}
