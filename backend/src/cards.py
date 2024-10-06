@@ -68,7 +68,7 @@ class DoNothing(BaseCard):
 class WashingMachine(BaseCard):
     name: str = "Washing Machine"
     path: str = "washing.png"
-    description: str = "Sends you and your opponent's hands for a tumble! Cycles throws forward: Rock -> Paper | Paper -> Scissors | Scissors -> Rock"
+    description: str = "Sends you and your opponent's hands for a tumble! Cycles rolls forward: Rock -> Paper | Paper -> Scissors | Scissors -> Rock"
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
         shared, should_continue = shared_change_state(old, played_by)
@@ -92,7 +92,7 @@ class WashingMachine(BaseCard):
 class AusWashingMachine(BaseCard):
     name: str = "Australian Washing Machine"
     path: str = "auswashing.png"
-    description: str = "Apparently the coriolis effect hits washing machines too! Washing machines down under cycle hands backward: Rock -> Scissors | Paper -> Rock | Scissors -> Paper"
+    description: str = "Washing machines down under run backwards! Cycle rolls backwards: Rock -> Scissors | Paper -> Rock | Scissors -> Paper"
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
         shared, should_continue = shared_change_state(old, played_by)
@@ -149,7 +149,7 @@ class CardJail(BaseCard):
 class OppositeDay(BaseCard):
     name: str = "Opposite Day"
     path: str = "oppositeday.png"
-    description: str = "Its opposite day! At the end of the game, if you would have lost, win instead! Of course, if you would have won, now you lose. Womp Womp."
+    description: str = "Its opposite day! At the end of the game, if you would have lost, win instead! Of course, if you would have won, now you lose."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
 
@@ -200,7 +200,7 @@ class OppositeDay(BaseCard):
 class Angel(BaseCard):
     name: str = "Guardian Angel"
     path: str = "angel.png"
-    description: str = "An angel descends from heaven, staying by your side to aid in your time of need. If your throw is destroyed, restores it to the winning one."
+    description: str = "An angel descends from heaven, lending aid in your time of need. If your throw is destroyed, restores it to the winning one."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
 
