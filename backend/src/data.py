@@ -42,6 +42,7 @@ class LobbyState(BaseModel):
     guest: "PlayerOptions"
     host: "PlayerOptions"
     game_history: list["GameState"] = []
+    end: Optional["GameEndState"] = None
 
 
 class PlayerOptions(BaseModel):
@@ -57,8 +58,12 @@ class GameState(BaseModel):
 
 class PlayerState(BaseModel):
     throw: Throw
-    status_effects: list[str]  # assumes status effect have unique string names
-    played_card: Optional["BaseCard"]
+    status_effects: list[str] = []  # assumes status effect have unique string names
+    played_card: Optional["BaseCard"] = None
+
+class GameEndState(BaseModel):
+    winner: Player
+    tie_breaker: Optional[str] = None
 
 
 # ###

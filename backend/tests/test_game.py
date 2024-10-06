@@ -6,16 +6,23 @@ from games import Games
 def test_games():
     game = Games(state={})
 
-    result = game.start_game()
-    assert result.status == LobbyStatus.CREATED
-    assert result.id != "" and result.id is not None
-    assert result.guest.available != []
-    assert result.host.available != []
+    lobby = game.start_game()
+    assert lobby.status == LobbyStatus.CREATED
+    assert lobby.id != "" and lobby.id is not None
+    assert lobby.guest.available != []
+    assert lobby.host.available != []
 
-    result = game.join_game(result.id)
-    assert result.status == LobbyStatus.PLAYING
-    assert len(result.guest.available) == 3
-    assert len(result.host.available) == 3
+    lobby = game.join_game(lobby.id)
+    assert lobby.status == LobbyStatus.PLAYING
+    assert len(lobby.guest.available) == 3
+    assert len(lobby.host.available) == 3
+
+    lobby = game.submit(lobby.id, [WashingMachine()], Player.GUEST, Throw.ROCK)
+    assert lobby.status == LobbyStatus.PLAYING
+    lobby = game.submit(lobby.id, [DoNothing(), DoNothing(), DoNothing()], Player.HOST, Throw.PAPER)
+    assert lobby.status == LobbyStatus.SHOWDOWN
+    assert lobby.end.winner == Player.HOST
+
 
 
 def test_washing_machine():
