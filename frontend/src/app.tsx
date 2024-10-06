@@ -6,19 +6,16 @@ import {Error404} from "./pages/error.tsx";
 
 const App = () => {
     return (
-        <div>
-
-            <Router>
-                {/* @ts-ignore */}
-                <Home path="/" />
-                {/* @ts-ignore */}
-                <Palette path="/palette" />
-                {/* @ts-ignore */}
-                <Game path="/game" />
-                {/* @ts-ignore */}
-                <Error404 default />
-            </Router>
-        </div>
+        <Router>
+            {/* @ts-ignore */}
+            <Home path="/" />
+            {/* @ts-ignore */}
+            <Palette path="/palette" />
+            {/* @ts-ignore */}
+            <Game path="/game" />
+            {/* @ts-ignore */}
+            <Error404 default />
+        </Router>
     );
 };
 
