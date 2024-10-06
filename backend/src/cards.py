@@ -339,7 +339,7 @@ class Gun(BaseCard):
         })
 
 class DevilDice(BaseCard):
-    name: str = "Deal with the Devil"
+    name: str = "Deal With The Devil"
     path: str = "devildice.png"
     description: str = "Reroll yours and your opponent's throw, but watch out! The devil giveth and the devil taketh away. (Your throw may be destroyed)"
 
@@ -381,7 +381,6 @@ class DevilDice(BaseCard):
 
 def list_cards() -> list[BaseCard]:
     return [
-        DoNothing(),
         WashingMachine(),
         AusWashingMachine(),
         CardJail(),
