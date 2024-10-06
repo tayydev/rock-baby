@@ -1,6 +1,7 @@
 import {LobbyState, Player, Throw} from "../../client";
 import {useEffect, useState} from "preact/hooks";
 import SlidingComponent from "../../components/slidingComponent.tsx";
+import Card from "../../components/card.tsx";
 
 interface ShowdownProps {
     lobby: LobbyState,
@@ -49,7 +50,7 @@ export default function Showdown(props: ShowdownProps) {
                     flexShrink: 0,
                 }}
             >
-                <b>Opponent</b>
+                <b style={{marginLeft: "0.5rem", fontSize: "2rem"}}>Opponent</b>
                 <div style={{ width: "100%" }}></div>
                 <div>STATUS EFFECTS</div>
                 <GimmeIcon throw={opponentThrow}/>
@@ -57,16 +58,16 @@ export default function Showdown(props: ShowdownProps) {
 
             {/* Middle Space */}
             <div style={{ flex: 1, width: "100%", background: "lightgrey", overflow: "hidden", position: "relative" }}>
-                <SlidingComponent from="left" duration={3} top={"20%"}>
-                    <div style={{ background: "lightblue", padding: "20px" }}>
-                        This component slides in from the left!
-                    </div>
-                </SlidingComponent>
-                <SlidingComponent from="left" duration={3}>
-                    <div style={{ background: "lightblue", padding: "20px" }}>
-                        This component slides in from the left!
-                    </div>
-                </SlidingComponent>
+                {props.lobby.game_history!.map((value, state_index) => {
+                    return state_index == index && <SlidingComponent from="left" duration={3} top={"40%"}>
+                        <div style={{background: "#1a1a1a", padding: "20px", borderRadius: "20px"}}>
+                            {value.guest_state.played_card != null && <Card info={value.guest_state.played_card}/>}
+                            {value.host_state.played_card != null && <Card info={value.host_state.played_card}/>}
+                            {value.host_state.played_card == null && value.guest_state.played_card == null && index != 0 && <div>Card In Card Jail</div>}
+                            {index == 0 && <div>First Round. Hands are Thrown, Baby!</div>}
+                        </div>
+                    </SlidingComponent>
+                })}
             </div>
 
             {/* Self Bar */}
@@ -79,8 +80,8 @@ export default function Showdown(props: ShowdownProps) {
                     flexShrink: 0,
                 }}
             >
-                <b>Self</b>
-                <div style={{ width: "100%" }}></div>
+                <b style={{marginLeft: "0.5rem", fontSize: "2rem"}}>Self</b>
+                <div style={{width: "100%"}}></div>
                 <div>STATUS EFFECTS</div>
                 <GimmeIcon throw={selfThrow}/>
             </div>

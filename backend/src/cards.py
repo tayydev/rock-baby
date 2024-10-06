@@ -10,8 +10,12 @@ def shared_change_state(old: GameState, played_by: Player) -> [GameState, bool]:
             "status_effects": old.guest_state.status_effects,
             "played_card": None
         })
+        new_host_state = old.guest_state.model_copy(update={
+            "played_card": None
+        })
         new_game_state = old.model_copy(update={
-            "guest_state": new_guest_state
+            "guest_state": new_guest_state,
+            "new_host_state": new_host_state
         })
         return new_game_state, False
     if played_by is Player.HOST and "jail" in old.host_state.status_effects:
@@ -20,12 +24,27 @@ def shared_change_state(old: GameState, played_by: Player) -> [GameState, bool]:
             "status_effects": old.host_state.status_effects,
             "played_card": None
         })
+        new_guest_state = old.guest_state.model_copy(update={
+            "played_card": None
+        })
         new_game_state = old.model_copy(update={
-            "host_state": new_host_state
+            "host_state": new_host_state,
+            "guest_state": new_guest_state
         })
         return new_game_state, False
 
-    return old, True
+    new_guest_state = old.guest_state.model_copy(update={
+        "played_card": None
+    })
+    new_host_state = old.host_state.model_copy(update={
+        "played_card": None
+    })
+    new_game_state = old.model_copy(update={
+        "host_state": new_host_state,
+        "guest_state": new_guest_state
+    })
+
+    return new_game_state, True
 
 def angel_save(old: GameState, player_saved: Player) -> GameState:
     throw_types = [Throw.SCISSORS,Throw.PAPER,Throw.ROCK]
