@@ -51,6 +51,33 @@ export interface BaseCard {
 /**
  * 
  * @export
+ * @interface BodySubmitPostGamePost
+ */
+export interface BodySubmitPostGamePost {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof BodySubmitPostGamePost
+     */
+    'selected_cards': Array<string>;
+    /**
+     * 
+     * @type {Player}
+     * @memberof BodySubmitPostGamePost
+     */
+    'role': Player;
+    /**
+     * 
+     * @type {Throw}
+     * @memberof BodySubmitPostGamePost
+     */
+    'throw_choice': Throw;
+}
+
+
+/**
+ * 
+ * @export
  * @interface GameEndState
  */
 export interface GameEndState {
@@ -398,21 +425,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Submit
          * @param {string} gameId 
-         * @param {Player} role 
-         * @param {Throw} throwChoice 
-         * @param {Array<BaseCard>} baseCard 
+         * @param {BodySubmitPostGamePost} bodySubmitPostGamePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        submitPostGameGet: async (gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        submitPostGamePost: async (gameId: string, bodySubmitPostGamePost: BodySubmitPostGamePost, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'gameId' is not null or undefined
-            assertParamExists('submitPostGameGet', 'gameId', gameId)
-            // verify required parameter 'role' is not null or undefined
-            assertParamExists('submitPostGameGet', 'role', role)
-            // verify required parameter 'throwChoice' is not null or undefined
-            assertParamExists('submitPostGameGet', 'throwChoice', throwChoice)
-            // verify required parameter 'baseCard' is not null or undefined
-            assertParamExists('submitPostGameGet', 'baseCard', baseCard)
+            assertParamExists('submitPostGamePost', 'gameId', gameId)
+            // verify required parameter 'bodySubmitPostGamePost' is not null or undefined
+            assertParamExists('submitPostGamePost', 'bodySubmitPostGamePost', bodySubmitPostGamePost)
             const localVarPath = `/post-game`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -421,20 +442,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             if (gameId !== undefined) {
                 localVarQueryParameter['game_id'] = gameId;
-            }
-
-            if (role !== undefined) {
-                localVarQueryParameter['role'] = role;
-            }
-
-            if (throwChoice !== undefined) {
-                localVarQueryParameter['throw_choice'] = throwChoice;
             }
 
 
@@ -444,7 +457,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(baseCard, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(bodySubmitPostGamePost, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -503,16 +516,14 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * 
          * @summary Submit
          * @param {string} gameId 
-         * @param {Player} role 
-         * @param {Throw} throwChoice 
-         * @param {Array<BaseCard>} baseCard 
+         * @param {BodySubmitPostGamePost} bodySubmitPostGamePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LobbyState>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.submitPostGameGet(gameId, role, throwChoice, baseCard, options);
+        async submitPostGamePost(gameId: string, bodySubmitPostGamePost: BodySubmitPostGamePost, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<LobbyState>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.submitPostGamePost(gameId, bodySubmitPostGamePost, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['DefaultApi.submitPostGameGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.submitPostGamePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -558,14 +569,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Submit
          * @param {string} gameId 
-         * @param {Player} role 
-         * @param {Throw} throwChoice 
-         * @param {Array<BaseCard>} baseCard 
+         * @param {BodySubmitPostGamePost} bodySubmitPostGamePost 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig): AxiosPromise<LobbyState> {
-            return localVarFp.submitPostGameGet(gameId, role, throwChoice, baseCard, options).then((request) => request(axios, basePath));
+        submitPostGamePost(gameId: string, bodySubmitPostGamePost: BodySubmitPostGamePost, options?: RawAxiosRequestConfig): AxiosPromise<LobbyState> {
+            return localVarFp.submitPostGamePost(gameId, bodySubmitPostGamePost, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -616,15 +625,13 @@ export class DefaultApi extends BaseAPI {
      * 
      * @summary Submit
      * @param {string} gameId 
-     * @param {Player} role 
-     * @param {Throw} throwChoice 
-     * @param {Array<BaseCard>} baseCard 
+     * @param {BodySubmitPostGamePost} bodySubmitPostGamePost 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public submitPostGameGet(gameId: string, role: Player, throwChoice: Throw, baseCard: Array<BaseCard>, options?: RawAxiosRequestConfig) {
-        return DefaultApiFp(this.configuration).submitPostGameGet(gameId, role, throwChoice, baseCard, options).then((request) => request(this.axios, this.basePath));
+    public submitPostGamePost(gameId: string, bodySubmitPostGamePost: BodySubmitPostGamePost, options?: RawAxiosRequestConfig) {
+        return DefaultApiFp(this.configuration).submitPostGamePost(gameId, bodySubmitPostGamePost, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

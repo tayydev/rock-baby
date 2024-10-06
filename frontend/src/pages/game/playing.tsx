@@ -1,4 +1,12 @@
-import {BaseCard, Configuration, DefaultApi, LobbyState, Player, Throw} from "../../client";
+import {
+    BaseCard,
+    BodySubmitPostGamePost,
+    Configuration,
+    DefaultApi,
+    LobbyState,
+    Player,
+    Throw
+} from "../../client";
 import {useEffect, useState} from "preact/hooks";
 import Card from "../../components/card.tsx";
 import './playing.css';
@@ -9,7 +17,7 @@ interface createdProps {
 }
 
 const apiConfig = new Configuration({
-    basePath: 'http://127.0.0.1:8839', // Your FastAPI base URL
+    basePath: 'https://playrock.baby', // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);
@@ -45,11 +53,14 @@ export default function Playing(props: createdProps){
 
     const handleSubmit = () => {
         if (!selectedRPS) return;
-        else{
-            apiClient.submitPostGameGet(props.lobby.id, props.role, selectedRPS, selectedCards).then(
-                () => {
-                    console.log("Submitted successfully");
-                })
+        else {
+            const body:  BodySubmitPostGamePost = {
+                selected_cards: selectedCards.map(it=>it.name),
+                role: props.role,
+                throw_choice: selectedRPS
+            }
+            apiClient.submitPostGamePost(props.lobby.id, body)
+                .then()
                 .catch(err => {
                     console.error("Submission failed:", err.response?.data || err.message);
                     if (err.response?.data?.detail) {

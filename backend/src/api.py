@@ -1,19 +1,19 @@
 import uuid
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Body
 from starlette.middleware.cors import CORSMiddleware
 
+from cards import list_cards
 from data import LobbyState, BaseCard, Player, Throw
 from games import Games, get_games
 
 app = FastAPI()
 
-# TODO: DELETE FOLLOWING SECURITY HOLES:
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=["http://localhost:5173", "https://playrock.baby"],  # Specify allowed origins
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE, etc.)
+    allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
 )
 
@@ -33,6 +33,16 @@ def join_game(game_id: uuid.UUID, game: Games = Depends(get_games)) -> LobbyStat
     return game.join_game(game_id)
 
 
-@app.get("/post-game")
-def submit(game_id: uuid.UUID, selected_cards: list[BaseCard], role: Player, throw_choice: Throw, game: Games = Depends(get_games)) -> LobbyState:
-    return game.submit(game_id, selected_cards, role, throw_choice)
+@app.post("/post-game")
+def submit(game_id: uuid.UUID,
+           selected_cards: list[str] = Body(...),
+           role: Player = Body(...),
+           throw_choice: Throw = Body(...),
+           game: Games = Depends(get_games)
+           ) -> LobbyState:
+    good_card_happy = []
+    for name in selected_cards:
+        for card in list_cards():
+            if(card.name) == name:
+                good_card_happy.append(card)
+    return game.submit(game_id, good_card_happy, role, throw_choice)

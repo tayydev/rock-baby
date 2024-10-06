@@ -7,3 +7,7 @@ poetry run python src
 ```shell
 pytest tests
 ```
+# Magic Kill Keyrind Command
+```shell
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+```
