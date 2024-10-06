@@ -24,6 +24,7 @@ export function Game() {
     //constant updater thing
     useEffect(() => {
         const fetchData = () => {
+            console.log("tick", queryStringId == null)
             if (queryStringId == null) return;
             apiClient.getGameGetGameGet(queryStringId!)
                 .then(game => setLobby(game.data)
@@ -38,7 +39,7 @@ export function Game() {
         const intervalId = setInterval(fetchData, 1000);
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [lobby?.id]);
 
     useEffect(() => {
         if (role === 'host' && queryStringId === null) {
@@ -53,7 +54,7 @@ export function Game() {
                 apiClient.joinGameJoinGameGet(queryStringId).then();
             }
         }
-    }, []);
+    }, [queryStringId, role]);
 
     return <>
         {(lobby == null || lobby.status == LobbyStatus.Created) && <Created lobby={lobby} role={role!}/>}
