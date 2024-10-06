@@ -152,7 +152,8 @@ class CardJail(BaseCard):
             status_copy = copy.deepcopy(old.guest_state.status_effects)
             status_copy.append("jail")
             new_guest_state = old.guest_state.model_copy(update={
-                "status_effects": status_copy
+                "status_effects": status_copy,
+                "played_card": None
             })
             new_host_state = old.host_state.model_copy(update={
                 "played_card": self
@@ -161,7 +162,8 @@ class CardJail(BaseCard):
             status_copy = copy.deepcopy(old.host_state.status_effects)
             status_copy.append("jail")
             new_host_state = old.host_state.model_copy(update={
-                "status_effects": status_copy
+                "status_effects": status_copy,
+                "played_card": None
             })
             new_guest_state = old.guest_state.model_copy(update={
                 "played_card": self
