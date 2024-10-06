@@ -77,17 +77,17 @@ def angel_save(old: GameState, player_saved: Player) -> GameState:
         "guest_state": new_guest_state
     })
 
-# class DoNothing(BaseCard):
-#     name: str = "Does Nothing"
-#     path: str = "nothing"
-#     description: str = "Does Nothing :3"
-#
-#     def change_state(self, old: GameState, played_by: Player) -> GameState:
-#         shared, should_continue = shared_change_state(old, played_by)
-#         if not should_continue:
-#             return shared
-#
-#         return old
+class DoNothing(BaseCard):
+    name: str = "Does Nothing"
+    path: str = "nothing"
+    description: str = "Does Nothing :3"
+
+    def change_state(self, old: GameState, played_by: Player) -> GameState:
+        shared, should_continue = shared_change_state(old, played_by)
+        if not should_continue:
+            return shared
+
+        return old
 
 
 class WashingMachine(BaseCard):
@@ -279,20 +279,18 @@ class Cat(BaseCard):
             "played_card": self if (played_by == Player.GUEST) else None
         })
 
-        if old.host_state.throw is Throw.PAPER:
-            if("angel" in old.host_state.status_effects):
+        if new_host_state.throw is Throw.PAPER:
+            if("angel" in new_host_state.status_effects):
                 return angel_save(old,Player.HOST)
-            new_host_state = old.host_state.model_copy(update={
+            new_host_state = new_host_state.model_copy(update={
                 "throw": old.host_state.throw.NONE,
-                "played_card": self if (played_by == Player.HOST) else None
             })
 
-        if old.guest_state.throw is Throw.PAPER:
-            if("angel" in old.guest_state.status_effects):
+        if new_guest_state.throw is Throw.PAPER:
+            if("angel" in new_guest_state.status_effects):
                 return angel_save(old,Player.GUEST)
-            new_guest_state = old.guest_state.model_copy(update={
+            new_guest_state = new_guest_state.model_copy(update={
                 "throw": old.guest_state.throw.NONE,
-                "played_card": self if (played_by == Player.GUEST) else None
             })
 
         return old.model_copy(update={
