@@ -34,4 +34,8 @@ button {
         width: 100%;
         font-size: 14px;
     }
+    .QRCode {
+        width: 70vw;
+        height: 70vw;
+    }
 }
