@@ -1,6 +1,7 @@
 import datetime
 import uuid
 
+from fastapi import HTTPException
 from pydantic import BaseModel
 
 from cards import list_cards
@@ -43,9 +44,8 @@ class Games(BaseModel):
         :param game_id:
         :return:
         """
-          #TODO: it doesn't work
-        if self.state[game_id] is None:
-            raise Exception("Game does not exist! :(")
+        if game_id not in self.state.keys():
+            raise HTTPException(status_code=404, detail="Not a valid Game ID")
         return self.state[game_id]
 
     def set_options(self, cards: PlayerOptions, role: str):
