@@ -68,7 +68,7 @@ class DoNothing(BaseCard):
 class WashingMachine(BaseCard):
     name: str = "Washing Machine"
     path: str = "washing.png"
-    description: str = "Cycles throws to what they beat"
+    description: str = "Sends you and your opponent's hands for a tumble! Cycles throws forward: Rock -> Paper | Paper -> Scissors | Scissors -> Rock"
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
         shared, should_continue = shared_change_state(old, played_by)
@@ -92,7 +92,7 @@ class WashingMachine(BaseCard):
 class AusWashingMachine(BaseCard):
     name: str = "Australian Washing Machine"
     path: str = "auswashing.png"
-    description: str = "Cycles throws to what they lose to"
+    description: str = "Apparently the coriolis effect hits washing machines too! Washing machines down under cycle hands backward: Rock -> Scissors | Paper -> Rock | Scissors -> Paper"
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
         shared, should_continue = shared_change_state(old, played_by)
@@ -116,7 +116,7 @@ class AusWashingMachine(BaseCard):
 class CardJail(BaseCard):
     name: str = "Card Jail"
     path: str = "card_jail.png"
-    description: str = "Opponent's next card has no effect."
+    description: str = "No one is above the law! One too many illicit activities by your opponent means their next card has no effect."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
 
@@ -149,23 +149,48 @@ class CardJail(BaseCard):
 class OppositeDay(BaseCard):
     name: str = "Opposite Day"
     path: str = "oppositeday.png"
-    description: str = "At the end of the game, if you would lose, win instead!"
+    description: str = "Its opposite day! At the end of the game, if you would have lost, win instead! Of course, if you would have won, now you lose. Womp Womp."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
-        if played_by is Player.HOST:
-            old.host_state.status_effects.append("winflip")
-            new_host_state = old.host_state.model_copy(update={
-                "status_effects": old.host_state.status_effects,
-                "played_card": self
-            })
-            new_guest_state = old.guest_state.model_copy()
+
+        is_flipped = False
+        if "winflip" in old.host_state.status_effects or old.guest_state.status_effects:
+            is_flipped = True
+
+        if is_flipped:
+            if "winflip" in old.host_state.status_effects:
+                old.host_state.status_effects.remove("winflip")
+                new_host_state = old.host_state.model_copy(update={
+                    "status_effects": old.host_state.status_effects,
+                    "played_card": self if (played_by == Player.HOST) else None
+                })
+                new_guest_state = old.guest_state.model_copy(update={
+                    "played_card": self if (played_by == Player.GUEST) else None
+                })
+            else:
+                old.guest_state.status_effects.remove("winflip")
+                new_guest_state = old.guest_state.model_copy(update={
+                    "status_effects": old.guest_state.status_effects,
+                    "played_card": self if (played_by == Player.GUEST) else None
+                })
+                new_host_state = old.host_state.model_copy(update={
+                    "played_card": self if (played_by == Player.HOST) else None
+                })
         else:
-            old.guest_state.status_effects.append("winflip")
-            new_guest_state = old.guest_state.model_copy(update={
-                "status_effects": old.guest_state.status_effects,
-                "played_card": self
-            })
-            new_host_state = old.host_state.model_copy()
+            if played_by is Player.HOST:
+                old.host_state.status_effects.append("winflip")
+                new_host_state = old.host_state.model_copy(update={
+                    "status_effects": old.host_state.status_effects,
+                    "played_card": self
+                })
+                new_guest_state = old.guest_state.model_copy()
+            else:
+                old.guest_state.status_effects.append("winflip")
+                new_guest_state = old.guest_state.model_copy(update={
+                    "status_effects": old.guest_state.status_effects,
+                    "played_card": self
+                })
+                new_host_state = old.host_state.model_copy()
 
         return old.model_copy(update={
             "host_state": new_host_state,
@@ -173,9 +198,9 @@ class OppositeDay(BaseCard):
         })
 
 class Angel(BaseCard):
-    name: str = "Angel's Chorus"
+    name: str = "Guardian Angel"
     path: str = "angel.png"
-    description: str = "An angel descends from heaven and revives you if your throw is destroyed. Restores your throw to a winning one."
+    description: str = "An angel descends from heaven, staying by your side to aid in your time of need. If your throw is destroyed, restores it to the winning one."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
 
@@ -244,7 +269,7 @@ class Cat(BaseCard):
 class Screw(BaseCard):
     name: str = "Loose Screw"
     path: str = "screw.png"
-    description: str = "Uh oh! A loose screw breaks your scissors. Looks like someone's really screwed."
+    description: str = "Uh oh! A loose screw loosens your scissors, and now they've fallen apart. If your throw is scissors, destroy it. Looks like someone's really screwed!"
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
         shared, should_continue = shared_change_state(old, played_by)
