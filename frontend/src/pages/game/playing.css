@@ -20,7 +20,8 @@
     align-items: center;
     gap: 10px; /* button gap */
     white-space: nowrap; /* Prevent buttons wrapping */
-    padding: 2rem;
+    margin: 2rem;
+    width: 90vw;
 }
 
 .rps-container button{
