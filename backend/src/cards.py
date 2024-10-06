@@ -273,25 +273,13 @@ class Cat(BaseCard):
             return shared
 
         new_host_state = old.host_state.model_copy(update={
-            "played_card": self if (played_by == Player.HOST) else None
+            "played_card": self if (played_by == Player.HOST) else None,
+            "throw": old.host_state.throw if old.host_state.throw is not Throw.PAPER else Throw.NONE
         })
         new_guest_state = old.guest_state.model_copy(update={
-            "played_card": self if (played_by == Player.GUEST) else None
+            "played_card": self if (played_by == Player.GUEST) else None,
+            "throw": old.guest_state.throw if old.guest_state.throw is not Throw.PAPER else Throw.NONE
         })
-
-        if new_host_state.throw is Throw.PAPER:
-            if("angel" in new_host_state.status_effects):
-                return angel_save(old,Player.HOST)
-            new_host_state = new_host_state.model_copy(update={
-                "throw": old.host_state.throw.NONE,
-            })
-
-        if new_guest_state.throw is Throw.PAPER:
-            if("angel" in new_guest_state.status_effects):
-                return angel_save(old,Player.GUEST)
-            new_guest_state = new_guest_state.model_copy(update={
-                "throw": old.guest_state.throw.NONE,
-            })
 
         return old.model_copy(update={
             "host_state": new_host_state,
@@ -417,7 +405,7 @@ def list_cards() -> list[BaseCard]:
         AusWashingMachine(),
         CardJail(),
         OppositeDay(),
-        Angel(),
+        # Angel(),
         Cat(),
         Screw(),
         Gun(),
