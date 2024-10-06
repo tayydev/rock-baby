@@ -71,7 +71,7 @@ export default function Showdown(props: ShowdownProps) {
             </div>
 
             {/* Middle Space */}
-            <div style={{ flex: 1, width: "100%", background: "lightgrey", overflow: "hidden", position: "relative" }}>
+            <div style={{ display: 'flex', flex: 1, width: "100%", background: "lightgrey", overflow: "hidden", position: "relative", justifyContent: 'center', alignItems: 'center' }}>
                 {props.lobby.game_history!.map((value, state_index) => {
 
                     const opponentPlayed = props.role == Player.Guest && props.lobby.game_history![index].host_state.played_card != null;
