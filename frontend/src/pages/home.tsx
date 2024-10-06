@@ -9,7 +9,7 @@ export function Home() {
     }
 
   return (
-      <><img src='\src\assets\logo.png' alt='logo' style={
+      <><img src='\assets\logo.png' alt='logo' style={
             {width: '90vw', maxHeight: '70vh', display: 'block', margin: 'auto', marginTop: '20px', objectFit: 'contain'}
       }/>
           <div className="card">
