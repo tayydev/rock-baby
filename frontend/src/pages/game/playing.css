@@ -1,7 +1,5 @@
 .button-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 10px; /* button gap */
     overflow-x: auto; /* horizontal scrolling */
     white-space: nowrap; /* Prevent buttons wrapping */
