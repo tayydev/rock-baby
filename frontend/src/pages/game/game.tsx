@@ -24,11 +24,15 @@ export function Game() {
 
     //constant updater thing
     useEffect(() => {
-        const intervalId = setInterval(() => {
-            if(queryStringId == null) return;
+        const fetchData = () => {
+            if (queryStringId == null) return;
             apiClient.getGameGetGameGet(queryStringId!)
-                .then(game => setLobby(game.data))
-        }, 1000);
+                .then(game => setLobby(game.data));
+        };
+
+        fetchData(); // Fetch data immediately on page load
+
+        const intervalId = setInterval(fetchData, 1000);
 
         return () => clearInterval(intervalId);
     }, []);
