@@ -18,11 +18,11 @@ export default function Created(props: CreatedProps) {
     return <div className="game-container">
         {props.role === 'host' && props.lobby != null &&
             <div className="host-controls">
-                <p>Share this QR code or link to create a game.</p>
+                <p><b>Share this QR code or link to create a game.</b></p>
                 <QRCodeSVG value={guestLink} className="QRCode"/>
                 <button onClick={copyGuestLink} style={
                     {margin: '20px'}
-                }>Copy guest link
+                }><b>Copy guest link</b>
                 </button>
             </div>
         }
