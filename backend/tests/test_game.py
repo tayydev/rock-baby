@@ -12,6 +12,11 @@ def test_games():
     assert result.guest.available != []
     assert result.host.available != []
 
+    result = game.join_game(result.id)
+    assert result.status == LobbyStatus.PLAYING
+    assert len(result.guest.available) == 3
+    assert len(result.host.available) == 3
+
 
 def test_washing_machine():
     game_state = GameState(
@@ -32,3 +37,4 @@ def test_washing_machine():
     assert new_state.host_state.played_card is None
     assert new_state.host_state.throw == Throw.PAPER
     assert new_state.guest_state.throw == Throw.SCISSORS
+
