@@ -8,6 +8,7 @@ interface SlidingComponentProps {
 }
 
 const SlidingComponent: FC<SlidingComponentProps> = ({
+    //@ts-ignore
                                                         top = "50%",
                                                          from = 'left',
                                                          duration = 10,
