@@ -26,7 +26,11 @@ export function Game() {
         const fetchData = () => {
             if (queryStringId == null) return;
             apiClient.getGameGetGameGet(queryStringId!)
-                .then(game => setLobby(game.data));
+                .then(game => setLobby(game.data)
+                ).catch(err => {
+                console.error(err);
+                route("/error");
+            });
         };
 
         fetchData(); // Fetch data immediately on page load

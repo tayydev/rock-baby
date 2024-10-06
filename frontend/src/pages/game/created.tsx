@@ -22,7 +22,7 @@ export default function Created(props: CreatedProps) {
         <p>Lobby Game ID: {props.lobby?.id}</p>
         {props.role === 'host' && props.lobby != null &&
             <div className="host-controls">
-                <QRCodeSVG value={guestLink}/>
+                <QRCodeSVG value={guestLink} className="QRCode"/>
                 <button onClick={copyGuestLink}>Copy guest link</button>
             </div>
         }
