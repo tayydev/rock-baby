@@ -28,6 +28,14 @@ export default function Showdown(props: ShowdownProps) {
         return () => clearInterval(interval);
     }, []);
 
+    const opponentStatusEffects = props.role == Player.Guest
+        ? props.lobby.game_history![index].host_state.status_effects!
+        : props.lobby.game_history![index].guest_state.status_effects!
+
+    const selfStatusEffects = props.role == Player.Guest
+        ? props.lobby.game_history![index].guest_state.status_effects!
+        : props.lobby.game_history![index].host_state.status_effects!
+
     const opponentThrow = props.role == Player.Guest
         ? props.lobby.game_history![index].host_state.throw
         : props.lobby.game_history![index].guest_state.throw
@@ -52,7 +60,10 @@ export default function Showdown(props: ShowdownProps) {
             >
                 <b style={{marginLeft: "0.5rem", fontSize: "2rem"}}>Opponent</b>
                 <div style={{ width: "100%" }}></div>
-                <div>STATUS EFFECTS</div>
+                <div>
+                    {opponentStatusEffects.includes("angel") && <img src="/assets/angel_status.png" alt="Angel Status" style={{ width: '3rem' }} />}
+                    {opponentStatusEffects.includes("winflip") && <img src="/assets/opposite_status.png" alt="Opposite Status" style={{ width: '3rem' }} />}
+                </div>
                 <GimmeIcon throw={opponentThrow}/>
             </div>
 
@@ -82,7 +93,10 @@ export default function Showdown(props: ShowdownProps) {
             >
                 <b style={{marginLeft: "0.5rem", fontSize: "2rem"}}>Self</b>
                 <div style={{width: "100%"}}></div>
-                <div>STATUS EFFECTS</div>
+                <div>
+                    {selfStatusEffects.includes("angel") && <img src="/assets/angel_status.png" alt="Angel Status" style={{ width: '3rem' }} />}
+                    {selfStatusEffects.includes("winflip") && <img src="/assets/opposite_status.png" alt="Opposite Status" style={{ width: '3rem' }} />}
+                </div>
                 <GimmeIcon throw={selfThrow}/>
             </div>
         </div>
