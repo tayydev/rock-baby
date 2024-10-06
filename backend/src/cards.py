@@ -77,17 +77,17 @@ def angel_save(old: GameState, player_saved: Player) -> GameState:
         "guest_state": new_guest_state
     })
 
-class DoNothing(BaseCard):
-    name: str = "Does Nothing"
-    path: str = "nothing"
-    description: str = "Does Nothing :3"
-
-    def change_state(self, old: GameState, played_by: Player) -> GameState:
-        shared, should_continue = shared_change_state(old, played_by)
-        if not should_continue:
-            return shared
-
-        return old
+# class DoNothing(BaseCard):
+#     name: str = "Does Nothing"
+#     path: str = "nothing"
+#     description: str = "Does Nothing :3"
+#
+#     def change_state(self, old: GameState, played_by: Player) -> GameState:
+#         shared, should_continue = shared_change_state(old, played_by)
+#         if not should_continue:
+#             return shared
+#
+#         return old
 
 
 class WashingMachine(BaseCard):
