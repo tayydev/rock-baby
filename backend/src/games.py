@@ -95,6 +95,16 @@ def _determine_game_end_state(state: GameState):
             winner=winner,
             tie_breaker="Tie broken by player with longest remaining life span"
         )
+    if "winflip" in state.guest_state.status_effects or state.host_state.status_effects:
+        if state.guest_state.throw == Throw.NONE:
+            return GameEndState(winner=Player.GUEST)
+        if state.host_state.throw == Throw.NONE:
+            return GameEndState(winner=Player.HOST)
+        if state.host_state.throw.cycle() == state.guest_state.throw:  # host dies
+            return GameEndState(winner=Player.HOST)
+        if state.guest_state.throw.cycle() == state.host_state.throw:
+            return GameEndState(winner=Player.GUEST)
+
     if state.guest_state.throw == Throw.NONE:
         return GameEndState(winner=Player.HOST)
     if state.host_state.throw == Throw.NONE:
