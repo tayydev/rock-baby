@@ -6,10 +6,11 @@ import './game.css'
 import Playing from "./playing.tsx";
 import Showdown from "./showdown.tsx";
 import Created from "./created.tsx";
+import {base_url_1} from "../constants.ts";
 
 
 const apiConfig = new Configuration({
-    basePath: base_url, // Your FastAPI base URL
+    basePath: base_url_1, // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);

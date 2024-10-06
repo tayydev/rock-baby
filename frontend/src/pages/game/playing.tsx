@@ -10,6 +10,7 @@ import {
 import {useEffect, useState} from "preact/hooks";
 import Card from "../../components/card.tsx";
 import './playing.css';
+import {base_url_1} from "../constants.ts";
 
 interface createdProps {
     lobby: LobbyState;
@@ -17,7 +18,7 @@ interface createdProps {
 }
 
 const apiConfig = new Configuration({
-    basePath: base_url, // Your FastAPI base URL
+    basePath: base_url_1, // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);
