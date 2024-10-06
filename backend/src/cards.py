@@ -304,18 +304,12 @@ class Screw(BaseCard):
         })
 
         if played_by is Player.HOST and old.host_state.throw is Throw.SCISSORS:
-            if("angel" in old.host_state.status_effects):
-                return angel_save(old,Player.HOST)
-            new_host_state = old.host_state.model_copy(update={
-                "throw": old.host_state.throw.NONE,
-                "played_card": self
+            new_host_state = new_host_state.model_copy(update={
+                "throw": Throw.NONE
             })
         if played_by is Player.GUEST and old.guest_state.throw is Throw.SCISSORS:
-            if("angel" in old.guest_state.status_effects):
-                return angel_save(old,Player.GUEST)
-            new_guest_state = old.guest_state.model_copy(update={
-                "throw": old.guest_state.throw.NONE,
-                "played_card": self
+            new_guest_state = new_guest_state.model_copy(update={
+                "throw": Throw.NONE
             })
 
         return old.model_copy(update={
@@ -409,5 +403,5 @@ def list_cards() -> list[BaseCard]:
         Cat(),
         Screw(),
         Gun(),
-        DevilDice()
+        # DevilDice()
     ]
