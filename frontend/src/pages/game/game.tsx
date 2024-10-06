@@ -34,13 +34,13 @@ export function Game() {
     }, []);
 
     useEffect(() => {
-        if (role === 'host' && lobby === null) {
+        if (role === 'host' && queryStringId === null) {
             apiClient.createGameCreateGameGet().then(result => {
                 setLobby(result.data);
                 route(`/game?role=${role}&gameID=${result.data.id}`, true)
             });
         }
-        if (role === 'guest') {
+        else if (role === 'guest') {
             if(lobby === null) route("/error");
             else {
                 //TODO: join game here
