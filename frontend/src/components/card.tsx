@@ -1,5 +1,4 @@
 import {BaseCard} from "../client";
-import sprite1 from '../assets/cards/washing.png'
 
 interface CardProps {
     info: BaseCard
@@ -16,7 +15,8 @@ export default function Card(props: CardProps) {
             width: "12rem",
             height: "20rem",
             border: "2px solid black",
-            borderRadius: "10px"
+            borderRadius: "10px",
+            whiteSpace: "normal"
         }}>
             {card.name}
             <div style={{ height: "8rem", background: "black", padding: "0.5rem"}}>
