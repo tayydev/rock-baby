@@ -94,6 +94,7 @@ export default function Playing(props: createdProps){
             ><img src="/assets/rps/scissors.png" alt="scissors" style={{width: '6rem'}}/>
             </button>
         </div>
+        Cards Selected: {selectedCards.length + ' / 3'}
         <div className="button-container">
             {availableCards.map(card => (
                 <button
