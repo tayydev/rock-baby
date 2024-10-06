@@ -73,7 +73,14 @@ export default function Playing(props: createdProps){
     };
 
     if (have_i_already_submitted) {
-        return <div>Waiting for other player...</div>;
+        return <div style={
+            {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh'
+            }
+        }><b>Waiting for other player...</b></div>;
     }
 
 
