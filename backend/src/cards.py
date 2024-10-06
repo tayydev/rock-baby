@@ -144,7 +144,6 @@ class CardJail(BaseCard):
     description: str = "No one is above the law! One too many illicit activities by your opponent means their next card has no effect."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
-
         shared, should_continue = shared_change_state(old, played_by)
         if not should_continue:
             return shared
@@ -179,6 +178,9 @@ class OppositeDay(BaseCard):
     description: str = "Its opposite day! At the end of the game, if you would have lost, win instead! Of course, if you would have won, now you lose."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
+        shared, should_continue = shared_change_state(old, played_by)
+        if not should_continue:
+            return shared
 
         is_flipped = False
         if "winflip" in old.host_state.status_effects or old.guest_state.status_effects:
@@ -234,7 +236,6 @@ class Angel(BaseCard):
     description: str = "An angel descends from heaven, lending aid in your time of need. If your throw is destroyed, restores it to the winning one."
 
     def change_state(self, old: GameState, played_by: Player) -> GameState:
-
         shared, should_continue = shared_change_state(old, played_by)
         if not should_continue:
             return shared
