@@ -21,7 +21,7 @@ export default function Showdown(props: ShowdownProps) {
 
     return (
         <div style={{
-            height: "50vh", display: "flex", flexDirection: "column"
+            height: "100vh", display: "flex", flexDirection: "column"
         }}>
             {/* Opponent Bar */}
             <div
