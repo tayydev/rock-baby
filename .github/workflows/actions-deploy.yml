@@ -24,11 +24,11 @@ jobs:
           node-version: '21' # Set this to your Node.js version
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
         working-directory: frontend
 
       - name: Build and Export the Next.js project
-        run: npm run build
+        run: yarn build
         working-directory: frontend
 
       - name: Create .nojekyll file
