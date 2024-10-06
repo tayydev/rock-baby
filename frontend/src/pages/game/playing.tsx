@@ -34,18 +34,25 @@ export default function Playing(props: createdProps){
         });
     };
 
+    const handleSubmit = () => {
+        //TODO: Handle submit logic here
+    };
+
 
     return <div>
         <div>
             <button onClick={() => setSelectedRPS(Throw.Rock)}
-                    style={{ backgroundColor: selectedRPS === Throw.Rock ? 'gray' : 'black' }}
-            >Rock</button>
+                    style={{backgroundColor: selectedRPS === Throw.Rock ? 'gray' : 'black'}}
+            >Rock
+            </button>
             <button onClick={() => setSelectedRPS(Throw.Paper)}
-                    style={{ backgroundColor: selectedRPS === Throw.Paper ? 'gray' : 'black' }}
-            >Paper</button>
+                    style={{backgroundColor: selectedRPS === Throw.Paper ? 'gray' : 'black'}}
+            >Paper
+            </button>
             <button onClick={() => setSelectedRPS(Throw.Scissors)}
-                    style={{ backgroundColor: selectedRPS === Throw.Scissors ? 'gray' : 'black' }}
-            >Scissors</button>
+                    style={{backgroundColor: selectedRPS === Throw.Scissors ? 'gray' : 'black'}}
+            >Scissors
+            </button>
         </div>
         <div className="button-container">
             {availableCards.map(card => (
@@ -59,6 +66,14 @@ export default function Playing(props: createdProps){
                     <Card info={card}></Card>
                 </button>
             ))}
+        </div>
+        <div className="submit-button">
+            <button
+                onClick={handleSubmit}
+                disabled={!selectedRPS}
+            >
+                Submit
+            </button>
         </div>
     </div>
 }
