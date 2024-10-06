@@ -335,16 +335,12 @@ class Gun(BaseCard):
         })
 
         if played_by is Player.HOST and old.guest_state.throw is Throw.ROCK:
-            if("angel" in old.guest_state.status_effects):
-                return angel_save(old,Player.GUEST)
-            new_guest_state = old.guest_state.model_copy(update={
-                "throw": old.guest_state.throw.NONE,
+            new_guest_state = new_guest_state.model_copy(update={
+                "throw": Throw.NONE,
             })
         if played_by is Player.GUEST and old.host_state.throw is Throw.ROCK:
-            if("angel" in old.host_state.status_effects):
-                return angel_save(old,Player.HOST)
-            new_host_state = old.host_state.model_copy(update={
-                "throw": old.host_state.throw.NONE,
+            new_host_state = new_host_state.model_copy(update={
+                "throw": Throw.NONE,
             })
 
         return old.model_copy(update={
