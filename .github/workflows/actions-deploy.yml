@@ -24,8 +24,8 @@ jobs:
           node-version: '21' # Set this to your Node.js version
 
       - name: Install dependencies
-        run: yarn install
-        working-directory: frontend
+        run: yarn install && yarn yarn add -g @openapitools/openapi-generator-cli && yarn client
+        working-directory: ./frontend
 
       - name: Build and Export the Next.js project
         run: yarn build
