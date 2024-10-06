@@ -59,8 +59,15 @@ export default function Showdown(props: ShowdownProps) {
             {/* Middle Space */}
             <div style={{ flex: 1, width: "100%", background: "lightgrey", overflow: "hidden", position: "relative" }}>
                 {props.lobby.game_history!.map((value, state_index) => {
+
+                    const opponentPlayed = props.role == Player.Guest && props.lobby.game_history![index].host_state.played_card != null;
+                    const selfPlayed = props.role == Player.Guest && props.lobby.game_history![index].guest_state.played_card != null;
+                    const nobodyPlayed = !opponentPlayed && !selfPlayed
+
                     return state_index == index && <SlidingComponent from="left" duration={3} top={"40%"}>
-                        <div style={{background: "#1a1a1a", padding: "20px", borderRadius: "20px"}}>
+                        <div style={{background: "#1a1a1a", padding: "20px", borderRadius: "20px", color: "white"}}>
+                            {opponentPlayed && <b>Opponent Played:</b>}
+                            {selfPlayed && <b>You Played:</b>}
                             {value.guest_state.played_card != null && <Card info={value.guest_state.played_card}/>}
                             {value.host_state.played_card != null && <Card info={value.host_state.played_card}/>}
                             {value.host_state.played_card == null && value.guest_state.played_card == null && index != 0 && <div>Card In Card Jail</div>}
