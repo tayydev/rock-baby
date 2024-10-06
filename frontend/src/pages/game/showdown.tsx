@@ -13,7 +13,14 @@ export default function Showdown(props: ShowdownProps) {
     useEffect(() => {
         // Set up the interval to increment index every 3 seconds
         const interval = setInterval(() => {
-            setIndex((prevIndex) => prevIndex + 1);
+            setIndex((prevIndex) => {
+                if (prevIndex < props.lobby.game_history!.length - 1){
+                    return prevIndex + 1;
+                } else {
+                    clearInterval(interval);
+                    return prevIndex;
+                }
+            });
         }, 3000);
 
         // Clean up the interval when the component unmounts
