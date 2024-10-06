@@ -25,7 +25,7 @@ export default function Card(props: CardProps) {
                     height: "100%"
                 }}>
                     <img
-                        src={`/src/assets/cards/${card.path}`}
+                        src={`/assets/cards/${card.path}`}
                         alt={"image error :("}
                         style={{
                             width: "110%",

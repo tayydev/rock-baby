@@ -3,7 +3,7 @@ import Card from "../components/card.tsx";
 import {BaseCard, Configuration, DefaultApi} from "../client";
 
 const apiConfig = new Configuration({
-    basePath: 'http://127.0.0.1:8000', // Your FastAPI base URL
+    basePath: 'http://127.0.0.1:8839', // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "preact/hooks";
-import {Configuration, DefaultApi, LobbyState, LobbyStatus} from "../../client";
+import {Configuration, DefaultApi, LobbyState, LobbyStatus, Player} from "../../client";
 import {route} from "preact-router";
 
 import './game.css'
@@ -9,14 +9,14 @@ import Created from "./created.tsx";
 
 
 const apiConfig = new Configuration({
-    basePath: 'http://127.0.0.1:8000', // Your FastAPI base URL
+    basePath: 'http://127.0.0.1:8839', // Your FastAPI base URL
 });
 
 const apiClient = new DefaultApi(apiConfig);
 
 export function Game() {
     const params = new URLSearchParams(window.location.search);
-    const role = params.get('role');
+    const role = (params.get('role') == 'host') ? Player.Host : Player.Guest;
     const queryStringId = params.get('gameID');
 
     const [lobby, setLobby] = useState<LobbyState | null>(null);
@@ -59,6 +59,6 @@ export function Game() {
     return <>
         {(lobby == null || lobby.status == LobbyStatus.Created) && <Created lobby={lobby} role={role!}/>}
         {(lobby != null && lobby.status == LobbyStatus.Playing) && <Playing lobby={lobby} role={role!}/>}
-        {(lobby != null && lobby.status == LobbyStatus.Showdown) && <Showdown lobbyState={lobby}/>}
+        {(lobby != null && lobby.status == LobbyStatus.Showdown) && <Showdown lobby={lobby}/>}
     </>
 }

@@ -1,17 +1,26 @@
-import {BaseCard, LobbyState, Throw} from "../../client";
+import {BaseCard, Configuration, DefaultApi, LobbyState, Player, Throw} from "../../client";
 import {useEffect, useState} from "preact/hooks";
 import Card from "../../components/card.tsx";
 import './playing.css';
 
 interface createdProps {
     lobby: LobbyState;
-    role: string;
+    role: Player;
 }
+
+const apiConfig = new Configuration({
+    basePath: 'http://127.0.0.1:8839', // Your FastAPI base URL
+});
+
+const apiClient = new DefaultApi(apiConfig);
 
 export default function Playing(props: createdProps){
     const [selectedRPS, setSelectedRPS] = useState<Throw | null>(null);
-    const [selectedCards, setSelectedCards] = useState<BaseCard[]>([]);
+    const [selectedCards, setSelectedCards] = useState<Array<BaseCard>>([]);
     const [availableCards, setAvailableCards] = useState<BaseCard[]>([]);
+
+
+    const have_i_already_submitted= (props.role == 'host') ? props.lobby.host.selected!.length > 0 : props.lobby.guest.selected!.length > 0;
 
     useEffect(() => {
         const fetchAvailableCards = async () => {
@@ -35,23 +44,43 @@ export default function Playing(props: createdProps){
     };
 
     const handleSubmit = () => {
-        //TODO: Handle submit logic here
+        if (!selectedRPS) return;
+        else{
+            apiClient.submitPostGameGet(props.lobby.id, props.role, selectedRPS, selectedCards).then(
+                () => {
+                    console.log("Submitted successfully");
+                })
+                .catch(err => {
+                    console.error("Submission failed:", err.response?.data || err.message);
+                    if (err.response?.data?.detail) {
+                        console.error("Error details:", err.response.data.detail);
+                    }
+                    console.log(selectedCards);
+                });
+        }
     };
 
+    if (have_i_already_submitted) {
+        return <div>Waiting for other player...</div>;
+    }
 
-    return <div>
-        <div>
-            <button onClick={() => setSelectedRPS(Throw.Rock)}
+
+    return <div className='selection-screen'>
+        <div className="rps-container">
+            <button className="button"
+                onClick={() => setSelectedRPS(Throw.Rock)}
                     style={{backgroundColor: selectedRPS === Throw.Rock ? 'gray' : 'black'}}
-            >Rock
+            ><img src="/assets/rps/rock.png" alt="rock" style={{width: '6rem'}}/>
             </button>
-            <button onClick={() => setSelectedRPS(Throw.Paper)}
+            <button className="button"
+                    onClick={() => setSelectedRPS(Throw.Paper)}
                     style={{backgroundColor: selectedRPS === Throw.Paper ? 'gray' : 'black'}}
-            >Paper
+            ><img src="/assets/rps/paper.png" alt="paper" style={{width: '6rem'}}/>
             </button>
-            <button onClick={() => setSelectedRPS(Throw.Scissors)}
+            <button className="button"
+                    onClick={() => setSelectedRPS(Throw.Scissors)}
                     style={{backgroundColor: selectedRPS === Throw.Scissors ? 'gray' : 'black'}}
-            >Scissors
+            ><img src="/assets/rps/scissors.png" alt="scissors" style={{width: '6rem'}}/>
             </button>
         </div>
         <div className="button-container">

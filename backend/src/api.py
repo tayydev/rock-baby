@@ -3,7 +3,7 @@ import uuid
 from fastapi import FastAPI, Depends
 from starlette.middleware.cors import CORSMiddleware
 
-from data import LobbyState
+from data import LobbyState, BaseCard, Player, Throw
 from games import Games, get_games
 
 app = FastAPI()
@@ -31,3 +31,8 @@ def get_game(game_id: uuid.UUID, game: Games = Depends(get_games)) -> LobbyState
 @app.get("/join-game")
 def join_game(game_id: uuid.UUID, game: Games = Depends(get_games)) -> LobbyState:
     return game.join_game(game_id)
+
+
+@app.get("/post-game")
+def submit(game_id: uuid.UUID, selected_cards: list[BaseCard], role: Player, throw_choice: Throw, game: Games = Depends(get_games)) -> LobbyState:
+    return game.submit(game_id, selected_cards, role, throw_choice)

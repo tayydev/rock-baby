@@ -1,5 +1,11 @@
-export default function Showdown(){
+import {LobbyState} from "../../client";
+
+interface ShowdownProps {
+    lobby: LobbyState
+}
+
+export default function Showdown(props: ShowdownProps) {
     return <div>
-        <p>Showdown</p>
+        <p>Showdown {JSON.stringify(props.lobby)}</p>
     </div>
 }
