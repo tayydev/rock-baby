@@ -275,7 +275,7 @@ class Cat(BaseCard):
             "played_card": self if (played_by == Player.HOST) else None
         })
         new_guest_state = old.guest_state.model_copy(update={
-            "played_card": self if (played_by == Player.HOST) else None
+            "played_card": self if (played_by == Player.GUEST) else None
         })
 
         if old.host_state.throw is Throw.PAPER:
