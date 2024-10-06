@@ -1,9 +1,10 @@
-import {LobbyState} from "../../client";
+import {LobbyState, Player, Throw} from "../../client";
 import {useEffect, useState} from "preact/hooks";
 import SlidingComponent from "../../components/slidingComponent.tsx";
 
 interface ShowdownProps {
-    lobby: LobbyState
+    lobby: LobbyState,
+    role: Player
 }
 
 export default function Showdown(props: ShowdownProps) {
@@ -18,6 +19,14 @@ export default function Showdown(props: ShowdownProps) {
         // Clean up the interval when the component unmounts
         return () => clearInterval(interval);
     }, []);
+
+    const opponentThrow = props.role == Player.Guest
+        ? props.lobby.game_history![index].host_state.throw
+        : props.lobby.game_history![index].guest_state.throw
+
+    const selfThrow = props.role == Player.Host
+        ? props.lobby.game_history![index].host_state.throw
+        : props.lobby.game_history![index].guest_state.throw
 
     return (
         <div style={{
@@ -36,7 +45,7 @@ export default function Showdown(props: ShowdownProps) {
                 <b>Opponent</b>
                 <div style={{ width: "100%" }}></div>
                 <div>STATUS EFFECTS</div>
-                <div>OPPONENT IMAGE HERE</div>
+                <GimmeIcon throw={opponentThrow}/>
             </div>
 
             {/* Middle Space */}
@@ -66,8 +75,18 @@ export default function Showdown(props: ShowdownProps) {
                 <b>Self</b>
                 <div style={{ width: "100%" }}></div>
                 <div>STATUS EFFECTS</div>
-                <div>SELF IMAGE HERE</div>
+                <GimmeIcon throw={selfThrow}/>
             </div>
         </div>
     );
+}
+
+interface GimmeIconProps {
+    throw: Throw
+}
+
+export function GimmeIcon(props: GimmeIconProps) {
+    return <>
+        <img src={`/assets/rps/${props.throw.toLowerCase()}.png`} alt="rock" style={{width: '6rem'}}/>
+    </>
 }
