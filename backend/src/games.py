@@ -39,8 +39,8 @@ class Games(BaseModel):
         self.state[game_id] = game.model_copy(update={
             "status": LobbyStatus.PLAYING,
             "last_update": datetime.datetime.now(),
-            "guest": PlayerOptions(available=random.sample(list_cards(), 3)),
-            "host": PlayerOptions(available=random.sample(list_cards(), 3))
+            "guest": PlayerOptions(available=random.sample(list_cards(), 5)),
+            "host": PlayerOptions(available=random.sample(list_cards(), 5))
         })
         return self.state[game_id]
 
