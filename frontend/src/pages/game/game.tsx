@@ -1,5 +1,5 @@
 import {useEffect, useState} from "preact/hooks";
-import {Configuration, DefaultApi, LobbyState, LobbyStatus} from "../../client";
+import {Configuration, DefaultApi, LobbyState, LobbyStatus, Player} from "../../client";
 import {route} from "preact-router";
 
 import './game.css'
@@ -16,7 +16,7 @@ const apiClient = new DefaultApi(apiConfig);
 
 export function Game() {
     const params = new URLSearchParams(window.location.search);
-    const role = params.get('role');
+    const role = (params.get('role') == 'host') ? Player.Host : Player.Guest;
     const queryStringId = params.get('gameID');
 
     const [lobby, setLobby] = useState<LobbyState | null>(null);

@@ -5,4 +5,22 @@
     gap: 10px; /* button gap */
     overflow-x: auto; /* horizontal scrolling */
     white-space: nowrap; /* Prevent buttons wrapping */
+    max-width: 85vw;
+}
+
+.rps-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* button gap */
+    white-space: nowrap; /* Prevent buttons wrapping */
+    max-width: 85vw;
+}
+
+.rps-container button{
+    flex: auto;
+    max-width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
