@@ -13,10 +13,11 @@ export default function Card(props: CardProps) {
             background: "white",
             color: "black",
             width: "12rem",
-            height: "20rem",
+            height: "100%",
             border: "2px solid black",
             borderRadius: "10px",
-            whiteSpace: "normal"
+            whiteSpace: "normal",
+            aspectRatio: "12/20"
         }}>
             {card.name}
             <div style={{ height: "8rem", background: "black", padding: "0.5rem"}}>
