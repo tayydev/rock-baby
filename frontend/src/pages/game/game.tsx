@@ -15,9 +15,8 @@ const apiConfig = new Configuration({
 const apiClient = new DefaultApi(apiConfig);
 
 export function Game() {
-
     const params = new URLSearchParams(window.location.search);
-    const role = params.get('role') || route("/error");
+    const role = params.get('role');
     const queryStringId = params.get('gameID');
 
     const [lobby, setLobby] = useState<LobbyState | null>(null);

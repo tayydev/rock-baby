@@ -26,3 +26,8 @@ def create_game(game: Games = Depends(get_games)) -> LobbyState:
 @app.get("/get-game")
 def get_game(game_id: uuid.UUID, game: Games = Depends(get_games)) -> LobbyState:
     return game.get_state(game_id)
+
+
+@app.get("/join-game")
+def join_game(game_id: uuid.UUID, game: Games = Depends(get_games)) -> LobbyState:
+    return game.join_game(game_id)
