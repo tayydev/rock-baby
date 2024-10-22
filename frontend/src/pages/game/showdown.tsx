@@ -14,6 +14,20 @@ export default function Showdown(props: ShowdownProps) {
     const [winner, setWinner] = useState(false)
 
     useEffect(() => {
+        // Function to set the dynamic height
+        const setDynamicHeight = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty("--vh", `${vh}px`);
+        };
+
+        setDynamicHeight();
+        window.addEventListener("resize", setDynamicHeight);
+
+        // Clean up event listener on component unmount
+        return () => window.removeEventListener("resize", setDynamicHeight);
+    }, []);
+
+    useEffect(() => {
         // Set up the interval to increment index every 3 seconds
         const interval = setInterval(() => {
             setIndex((prevIndex) => {
@@ -49,7 +63,8 @@ export default function Showdown(props: ShowdownProps) {
 
     return (
         <div style={{
-            height: "100vh", display: "flex", flexDirection: "column"
+            height: "calc(var(--vh, 1vh) * 100)",
+            display: "flex", flexDirection: "column"
         }}>
             {/* Opponent Bar */}
             <div
@@ -74,8 +89,10 @@ export default function Showdown(props: ShowdownProps) {
             <div style={{ display: 'flex', flex: 1, width: "100%", background: "lightgrey", overflow: "hidden", position: "relative", justifyContent: 'center', alignItems: 'center' }}>
                 {props.lobby.game_history!.map((value, state_index) => {
 
-                    const opponentPlayed = props.role == Player.Guest && props.lobby.game_history![index].host_state.played_card != null;
-                    const selfPlayed = props.role == Player.Guest && props.lobby.game_history![index].guest_state.played_card != null;
+                    const opponentPlayed = props.role == Player.Guest && props.lobby.game_history![index].host_state.played_card != null
+                        || props.role == Player.Host && props.lobby.game_history![index].guest_state.played_card != null;
+                    const selfPlayed = props.role == Player.Guest && props.lobby.game_history![index].guest_state.played_card != null
+                        || props.role == Player.Host && props.lobby.game_history![index].host_state.played_card != null;
 
                     //@ts-ignore
                     return state_index == index && <SlidingComponent from="left" duration={3} top={"40%"}>
