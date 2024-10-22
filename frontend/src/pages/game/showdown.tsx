@@ -95,7 +95,7 @@ export default function Showdown(props: ShowdownProps) {
                         || props.role == Player.Host && props.lobby.game_history![index].host_state.played_card != null;
 
                     //@ts-ignore
-                    return state_index == index && <SlidingComponent from="left" duration={3} top={"40%"}>
+                    return state_index == index && <SlidingComponent from="left" duration={3} top={"50%"}>
                         <div style={{background: "#1a1a1a", padding: "20px", borderRadius: "20px", color: "white"}}>
                             {opponentPlayed && <b>Opponent Played:</b>}
                             {selfPlayed && <b>You Played:</b>}
